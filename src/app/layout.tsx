@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local"
 import "./globals.css";
+import { Cinzel } from "next/font/google";
+
+const myFont = localFont({
+  src: [
+    {
+      path: './fonts/Mantinia Regular.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--mantinia-regular'
+})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,6 +24,12 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const cinzel = Cinzel({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-cinzel-decorative"
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${myFont.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>
