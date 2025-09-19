@@ -4,6 +4,10 @@ import { Cinzel_Decorative } from "next/font/google";
 import { supabase } from "../lib/supabaseClient";
 import { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
+import WinModal from "../components/WinModal";
+import Confetti from 'react-confetti'
+import { useWindowSize } from 'react-use'
+import HintModal from "../components/HintModal";
 
 const minhaFonte = localFont({
     src: '../fonts/Mantinia Regular.otf',
@@ -21,11 +25,13 @@ type Quote = {
     regiao: string
     dica1: string,
     dica2: string,
-    dica3: string
+    dica3: string,
+    imagem_url: string
 }
 
 type attempt = {
     value: string,
+    imagem_url: string
     isCorrect: boolean
 }
 
@@ -34,7 +40,20 @@ export default function quotesChallenge() {
     const [dailyQuote, setDailyQuote] = useState<Quote | null>(null);
     const [inputValue, setInputValue] = useState<string>("");
     const [attempts, setAttempts] = useState<attempt[]>([]);
-    const [numberOfAttempts, setNumberOfAttempts] = useState<number>(0)
+    const [numberOfAttempts, setNumberOfAttempts] = useState<number>(0);
+    const [showModal, setShowModal] = useState<boolean>(false)
+    const [showConfetti, setShowConfetti] = useState(false);
+    const [showHintModal, setShowHintModal] = useState(false)
+    const { width, height } = useWindowSize();
+
+    function handleWin() {
+        setShowConfetti(true)
+        setShowModal(true)
+    }
+    
+    function handleHintModal() {
+        setShowHintModal(true)
+    }
 
     function handleInputChanges(e: React.ChangeEvent<HTMLInputElement>) {
         setInputValue(e.target.value)
@@ -60,21 +79,34 @@ export default function quotesChallenge() {
     }, []);
 
     function handleUserAttempt() {
-        const verification = quotes.filter((q) => q.personagem === inputValue)
-        if(verification.length === 0) {
+        if (attempts.some(a => a.isCorrect)) {
+            handleWin()
+            return;
+        }
+
+        const verification = quotes.find((q) => q.personagem === inputValue)
+        if (!verification) {
             alert("Por favor, digite um nome válido.");
             return;
         }
 
-        if(inputValue === dailyQuote?.personagem) {
-            setAttempts([...attempts, { value: inputValue, isCorrect: true }])
+        if (verification.personagem === dailyQuote?.personagem) {
+            setAttempts(prev => [...prev, {
+                value: verification.personagem,
+                imagem_url: verification.imagem_url,
+                isCorrect: true
+            }])
+            handleWin()
             setInputValue("")
-            setNumberOfAttempts(numberOfAttempts+1);
-            alert("parabéns! você conseguiu em " + (numberOfAttempts + 1) + " tentativas.")
         } else {
-            setAttempts([...attempts, { value: inputValue, isCorrect: false }])
+            setAttempts(prev => [...prev, {
+                value: verification.personagem,
+                imagem_url: verification.imagem_url,
+                isCorrect: false
+            }])
+
+            setNumberOfAttempts(prev => prev + 1);
             setInputValue("")
-            setNumberOfAttempts(numberOfAttempts+1);
         }
     }
 
@@ -87,31 +119,38 @@ export default function quotesChallenge() {
                 </div>
 
                 <div className="flex justify-center items-center mt-5 gap-10">
-                    <button className="bg-black/50 rounded-md border p-3 text-center font-bold cursor-pointer">💡 Hint 1</button>
+                    <button onClick={handleHintModal} className="bg-black/50 rounded-md border p-3 text-center font-bold cursor-pointer">💡 Hint 1</button>
                     <button className="bg-black/50 rounded-md border p-3 text-center font-bold cursor-pointer">💡 Hint 2</button>
+                </div>
+
+                <div>
+                    {
+                        showHintModal && <HintModal show={showHintModal} hint={dailyQuote?.dica1} onClose={() => setShowHintModal(false)} />
+                    }
                 </div>
             </div>
 
             <main className="flex flex-col items-center justify-center">
 
-                <div className="lista w-80 h-96 overflow-y-auto flex flex-col gap-5 text-center">
-                    { attempts.map((attempt) => (
-                        <div className={`${attempt.isCorrect ? 'bg-green-600/80' : 'bg-red-800/80'} border-2 py-2 flex text-center items-center justify-center rounded-md`}>
-                            <h1>{attempt.value}</h1>
+                <div className="lista px-5 w-80 h-96 2xl:h-[50vh] overflow-y-auto flex flex-col gap-5 text-center">
+                    {attempts.map((attempt) => (
+                        <div key={attempt.value} className={`${attempt.isCorrect ? 'bg-[#35B957]' : 'bg-[#DF5858]'} border-2 py-2 flex flex-col text-center items-center justify-center rounded-md`}>
+                            <img src={attempt.imagem_url} className="w-16 h-16 object-cover" alt="" />
+                            <h1 className="mt-2 font-extrabold">{attempt.value}</h1>
                         </div>
-                    )) }
+                    ))}
                 </div>
                 <div className="w-20 h-20 flex items-center justify-center">
                     <div className="flex">
                         <input onChange={handleInputChanges} value={inputValue} list="personagens" type="text" className=" h-10 bg-white text-black rounded-md pl-2" placeholder="Guess the owner of the quote... " />
-                    <datalist id="personagens">
-                        { quotes.map((q) => (
-                            <option key={q.personagem} value={q.personagem}>{q.personagem}</option>
-                        )) }
-                    </datalist>
-                    <div onClick={handleUserAttempt} className="cursor-pointer border-2 p-2 flex h-10  justify-center items-center rounded-md ml-2">
-                        <SendIcon />
-                    </div>
+                        <datalist id="personagens">
+                            {quotes.map((q) => (
+                                <option key={q.personagem} value={q.personagem}>{q.personagem}</option>
+                            ))}
+                        </datalist>
+                        <div onClick={handleUserAttempt} className="cursor-pointer border-2 p-2 flex h-10  justify-center items-center rounded-md ml-2">
+                            <SendIcon />
+                        </div>
                     </div>
                 </div>
 
@@ -122,6 +161,22 @@ export default function quotesChallenge() {
                     <span className="text-[#f1c40d]">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring. All content is used for entertainment purposes only.
                 </p>
             </footer>
+
+            {showConfetti && <Confetti width={width} height={height} numberOfPieces={300}
+                gravity={0.5}
+                wind={0.02}
+                initialVelocityX={{ min: -10, max: 10 }}
+                initialVelocityY={{ min: 10, max: 10 }} />}
+            <WinModal
+                show={showModal}
+                attempts={numberOfAttempts + 1}
+                characterImg={dailyQuote?.imagem_url}
+                characterName={dailyQuote?.personagem}
+                onClose={() => {
+                    setShowModal(false)
+                    setShowConfetti(false)
+                }}
+            />
         </div>
     )
 }
