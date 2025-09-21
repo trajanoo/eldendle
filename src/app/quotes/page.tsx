@@ -2,12 +2,13 @@
 import localFont from "next/font/local";
 import { Cinzel_Decorative } from "next/font/google";
 import { supabase } from "../lib/supabaseClient";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import WinModal from "../components/WinModal";
 import Confetti from 'react-confetti'
-import { useWindowSize } from 'react-use'
+import { useAsync, useWindowSize } from 'react-use'
 import HintModal from "../components/HintModal";
+import CharacterAutocomplete from "../components/CharactersAutoComplete";
 
 const minhaFonte = localFont({
     src: '../fonts/Mantinia Regular.otf',
@@ -19,6 +20,7 @@ const cinzelDecorative = Cinzel_Decorative({
 
 
 type Quote = {
+    id: string,
     personagem: string,
     fala: string,
     contexto: string,
@@ -44,14 +46,21 @@ export default function quotesChallenge() {
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showConfetti, setShowConfetti] = useState(false);
     const [showHintModal, setShowHintModal] = useState(false)
+    const [currentHint, setCurrentHint] = useState<string | null>();
     const { width, height } = useWindowSize();
+    const [availableCharacters, setAvailableCharacters] = useState<Quote[]>([])
+    const [shake, setShake] = useState<boolean>(false)
+    const [shakeHint1, setShakeHint1] = useState(false)
+    const [shakeHint2, setShakeHint2] = useState(false)
+
 
     function handleWin() {
         setShowConfetti(true)
         setShowModal(true)
     }
-    
-    function handleHintModal() {
+
+    function handleHintModal(hint: string) {
+        setCurrentHint(hint)
         setShowHintModal(true)
     }
 
@@ -68,6 +77,7 @@ export default function quotesChallenge() {
             }
 
             setQuotes(data);
+            setAvailableCharacters(data);
 
             const hoje = new Date();
             const seed = Math.floor(hoje.getTime() / (1000 * 60 * 60 * 24));
@@ -78,6 +88,13 @@ export default function quotesChallenge() {
         fetchQuotes();
     }, []);
 
+    const listaRef = useRef<HTMLDivElement | null>(null)
+    useEffect(() => {
+        if (listaRef.current) {
+            listaRef.current.scrollTop = listaRef.current.scrollHeight
+        }
+    }, [attempts])
+
     function handleUserAttempt() {
         if (attempts.some(a => a.isCorrect)) {
             handleWin()
@@ -85,10 +102,9 @@ export default function quotesChallenge() {
         }
 
         const verification = quotes.find((q) => q.personagem === inputValue)
-        if (!verification) {
-            alert("Por favor, digite um nome válido.");
-            return;
-        }
+        if (!verification) return;
+
+        setAvailableCharacters(prev => prev.filter((q) => q.personagem !== verification.personagem));
 
         if (verification.personagem === dailyQuote?.personagem) {
             setAttempts(prev => [...prev, {
@@ -96,8 +112,9 @@ export default function quotesChallenge() {
                 imagem_url: verification.imagem_url,
                 isCorrect: true
             }])
+
+            setShake(false)
             handleWin()
-            setInputValue("")
         } else {
             setAttempts(prev => [...prev, {
                 value: verification.personagem,
@@ -105,10 +122,32 @@ export default function quotesChallenge() {
                 isCorrect: false
             }])
 
+            setShake(true)
             setNumberOfAttempts(prev => prev + 1);
             setInputValue("")
         }
     }
+
+    const hoje = new Date().toISOString().split("T")[0];
+    const attemptsKey = `attempts-${hoje}`;
+    const numberKey = `numberOfAttempts-${hoje}`
+
+    useEffect(() => {
+        const storedAttempts = localStorage.getItem(attemptsKey)
+        const storedNumbers = localStorage.getItem(numberKey)
+
+        if(storedAttempts && storedAttempts !== "undefined") {
+            setAttempts(JSON.parse(storedAttempts))
+        }
+        if(storedNumbers && storedNumbers !== "undefined") {
+            setNumberOfAttempts(Number(storedNumbers))
+        }
+    }, [attemptsKey, numberKey])
+
+    useEffect(() => {
+        localStorage.setItem(attemptsKey, JSON.stringify(attempts))
+        localStorage.setItem(numberKey, numberOfAttempts.toString());
+    }, [attempts, numberOfAttempts, attemptsKey, numberKey])
 
     return (
         <div className={`min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-center items-center`}>
@@ -118,23 +157,53 @@ export default function quotesChallenge() {
                     <p className={`${cinzelDecorative.className} font-extrabold text-2xl`}>{`"${dailyQuote?.fala}"`}</p>
                 </div>
 
-                <div className="flex justify-center items-center mt-5 gap-10">
-                    <button onClick={handleHintModal} className="bg-black/50 rounded-md border p-3 text-center font-bold cursor-pointer">💡 Hint 1</button>
-                    <button className="bg-black/50 rounded-md border p-3 text-center font-bold cursor-pointer">💡 Hint 2</button>
-                </div>
+                <div className="flex justify-center items-center mt-5 gap-6">
+                    <button
+                        onClick={() => {
+                            if (numberOfAttempts >= 3) {
+                                handleHintModal(dailyQuote?.dica1 || "")
+                            } else {
+                                setShakeHint1(true)
+                                setTimeout(() => setShakeHint1(false), 500) // duração do shake
+                            }
+                        }}
+                        className={`px-6 py-2 rounded-lg border font-semibold transition-all duration-200 ${numberOfAttempts >= 3
+                                ? "border text-white hover:bg-yellow-700/30 bg-black/60 shadow-[0_0_8px_#fff] cursor-pointer"
+                                : `border-white/40 text-white/50 bg-black/40  ${shakeHint1 ? 'shake' : ''}`
+                            }`}
+                    >
+                        {numberOfAttempts >= 3 ? "💡 Dica 1" : "🚫 Dica 1"}
+                    </button>
 
+                    <button
+                        onClick={() => {
+                            if (numberOfAttempts >= 6) {
+                                handleHintModal(dailyQuote?.dica2 || "")
+                            } else {
+                                setShakeHint2(true)
+                                setTimeout(() => setShakeHint2(false), 500)
+                            }
+                        }}
+                        className={`px-6 py-2 rounded-lg border font-semibold transition-all duration-200 ${numberOfAttempts >= 6
+                                ? "border text-white hover:bg-yellow-700/30 bg-black/60 shadow-[0_0_8px_#fff] cursor-pointer"
+                                : `border-white/40 text-white/50 bg-black/40 ${shakeHint2 ? 'shake' : ''}`
+                            }`}
+                    >
+                        {numberOfAttempts >= 6 ? "💡 Dica 2" : "🚫 Dica 2"}
+                    </button>
+                </div>
                 <div>
                     {
-                        showHintModal && <HintModal show={showHintModal} hint={dailyQuote?.dica1} onClose={() => setShowHintModal(false)} />
+                        showHintModal && <HintModal show={showHintModal} hint={currentHint || undefined} onClose={() => setShowHintModal(false)} />
                     }
                 </div>
             </div>
 
             <main className="flex flex-col items-center justify-center">
 
-                <div className="lista px-5 w-80 h-96 2xl:h-[50vh] overflow-y-auto flex flex-col gap-5 text-center">
+                <div ref={listaRef} className="lista px-5 w-80 h-96 2xl:h-[50vh] overflow-y-auto flex flex-col gap-5 text-center">
                     {attempts.map((attempt) => (
-                        <div key={attempt.value} className={`${attempt.isCorrect ? 'bg-[#35B957]' : 'bg-[#DF5858]'} border-2 py-2 flex flex-col text-center items-center justify-center rounded-md`}>
+                        <div key={attempt.value} className={`${attempt.isCorrect ? 'bg-[#35B957]' : 'bg-[#DF5858]'} ${shake ? 'shake' : ''} border-2 py-2 flex flex-col text-center items-center justify-center rounded-md`}>
                             <img src={attempt.imagem_url} className="w-16 h-16 object-cover" alt="" />
                             <h1 className="mt-2 font-extrabold">{attempt.value}</h1>
                         </div>
@@ -142,12 +211,7 @@ export default function quotesChallenge() {
                 </div>
                 <div className="w-20 h-20 flex items-center justify-center">
                     <div className="flex">
-                        <input onChange={handleInputChanges} value={inputValue} list="personagens" type="text" className=" h-10 bg-white text-black rounded-md pl-2" placeholder="Guess the owner of the quote... " />
-                        <datalist id="personagens">
-                            {quotes.map((q) => (
-                                <option key={q.personagem} value={q.personagem}>{q.personagem}</option>
-                            ))}
-                        </datalist>
+                        <CharacterAutocomplete characters={availableCharacters} onSelect={(c) => setInputValue(c.personagem)} />
                         <div onClick={handleUserAttempt} className="cursor-pointer border-2 p-2 flex h-10  justify-center items-center rounded-md ml-2">
                             <SendIcon />
                         </div>
@@ -156,11 +220,12 @@ export default function quotesChallenge() {
 
             </main>
 
-            <footer className="w-full py-4 px-8 bg-black/50 backdrop-blur-sm">
-                <p className={`${cinzelDecorative.className} text-center text-sm`}>
-                    <span className="text-[#f1c40d]">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring. All content is used for entertainment purposes only.
-                </p>
-            </footer>
+                  <footer className="w-full py-4 px-8 bg-black/60 backdrop-blur-sm border-t border-white/20">
+        <p className={`${cinzelDecorative.className} text-center text-xs text-white/70`}>
+          <span className="text-white">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring.  
+          All content is used for entertainment purposes only.
+        </p>
+      </footer>
 
             {showConfetti && <Confetti width={width} height={height} numberOfPieces={300}
                 gravity={0.5}
