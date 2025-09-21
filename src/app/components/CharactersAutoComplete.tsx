@@ -2,7 +2,6 @@
 import { Fragment, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 
-
 type Character = {
   personagem: string
   imagem_url: string
@@ -37,7 +36,8 @@ export default function CharacterAutocomplete({
           <Combobox.Input
             className="w-full border rounded-md px-3 py-2 bg-white text-black
              focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            displayValue={(c: Character) => c?.personagem ?? ''}
+            // 👇 aqui precisa retornar string
+            displayValue={(c: Character | null) => (c ? c.personagem : '')}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Digite o personagem..."
           />
@@ -47,7 +47,6 @@ export default function CharacterAutocomplete({
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            afterLeave={() => setQuery('')}
           >
             <Combobox.Options className="absolute bottom-full mb-1 max-h-60 w-full overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
               {filtered.length === 0 && query !== '' ? (
@@ -67,7 +66,7 @@ export default function CharacterAutocomplete({
                   >
                     <img
                       src={c.imagem_url}
-                      alt=""
+                      alt={c.personagem}
                       className="w-12 h-12 border-2 object-cover"
                     />
                     <span className="block truncate font-medium">

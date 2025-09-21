@@ -32,13 +32,13 @@ export default function HintModal({ show, hint, onClose }: HintModalProps) {
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-1 bg-white rounded-full shadow-[0_0_8px_#fff]"></div>
 
             <h2 className="text-2xl font-bold text-white drop-shadow-[0_0_10px_#fff]">
-              Guia da graça
+              Guidance of Grace
             </h2>
 
             <p className="mt-4 text-gray-200 text-lg leading-relaxed">
               {hint ? (
                 <>
-                  <span className="text-yellow-300 font-semibold">Dica:</span>{" "}
+                  <span className="text-yellow-300 font-semibold">Hint:</span>{" "}
                   {hint}
                 </>
               ) : (
