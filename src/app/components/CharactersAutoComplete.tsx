@@ -3,7 +3,7 @@ import { Fragment, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 
 type Character = {
-  personagem: string
+  nome: string
   imagem_url: string
 }
 
@@ -21,12 +21,12 @@ export default function CharacterAutocomplete({
     query === ''
       ? characters
       : characters.filter((c) =>
-          c.personagem.toLowerCase().includes(query.toLowerCase())
+          c.nome.toLowerCase().includes(query.toLowerCase())
         )
 
-  function handleSelect(c: Character) {
+  function handleSelect(c: Character | null) {
     setSelected(c)
-    onSelect(c)
+    if(c) onSelect(c)
   }
 
   return (
@@ -37,9 +37,9 @@ export default function CharacterAutocomplete({
             className="w-full border rounded-md px-3 py-2 bg-white text-black
              focus:outline-none focus:ring-2 focus:ring-yellow-500"
             // 👇 aqui precisa retornar string
-            displayValue={(c: Character | null) => (c ? c.personagem : '')}
+            displayValue={(c: Character | null) => (c ? c.nome : '')}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Digite o personagem..."
+            placeholder="Enter the character..."
           />
 
           <Transition
@@ -51,12 +51,12 @@ export default function CharacterAutocomplete({
             <Combobox.Options className="absolute bottom-full mb-1 max-h-60 w-full overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
               {filtered.length === 0 && query !== '' ? (
                 <div className="cursor-default select-none px-4 py-2 text-gray-500">
-                  Nenhum personagem encontrado.
+                  No character found.
                 </div>
               ) : (
                 filtered.map((c) => (
                   <Combobox.Option
-                    key={c.personagem}
+                    key={c.nome}
                     value={c}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 pl-3 pr-4 flex items-center gap-2 ${
@@ -66,11 +66,11 @@ export default function CharacterAutocomplete({
                   >
                     <img
                       src={c.imagem_url}
-                      alt={c.personagem}
+                      alt={c.nome}
                       className="w-12 h-12 border-2 object-cover"
                     />
                     <span className="block truncate font-medium">
-                      {c.personagem}
+                      {c.nome}
                     </span>
                   </Combobox.Option>
                 ))

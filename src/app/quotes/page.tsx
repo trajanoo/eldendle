@@ -207,9 +207,9 @@ export default function QuotesChallenge() {
                 <div className="w-20 h-20 flex items-center justify-center">
                     <div className="flex">
                         <CharacterAutocomplete characters={availableCharacters.map(c => ({
-                            personagem: c.nome,
+                            nome: c.nome,
                             imagem_url: c.imagem_url
-                        }))} onSelect={(c) => setInputValue(c.personagem)} />
+                        }))} onSelect={(c) => setInputValue(c.nome)} />
                         <div onClick={handleUserAttempt} className="cursor-pointer border-2 p-2 flex h-10 justify-center items-center rounded-md ml-2">
                             <SendIcon />
                         </div>
