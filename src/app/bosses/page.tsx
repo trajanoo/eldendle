@@ -78,10 +78,6 @@ export default function BossesChallenge() {
     }, [])
 
     function handleUserAttempt() {
-        if (attempts.some(a => a.nome === dailyBoss?.nome)) {
-            handleWin()
-            return
-        }
         const verification = bosses.find((b) => inputValue === b.nome)
         if (!verification || !dailyBoss) return
         setAvailableCharacters(prev => prev.filter((c) => c.nome !== verification.nome));
