@@ -125,9 +125,9 @@ export default function QuotesChallenge() {
     }
 
     // reset diário
-    const hoje = new Date().toISOString().split("T")[0];
-    const attemptsKey = `attempts-${hoje}`;
-    const numberKey = `numberOfAttempts-${hoje}`
+const hoje = new Date().toISOString().split("T")[0];
+const attemptsKey = `quotesAttempts-${hoje}`;
+const numberKey = `quotesNumberOfAttempts-${hoje}`;
 
     useEffect(() => {
         const storedAttempts = localStorage.getItem(attemptsKey)

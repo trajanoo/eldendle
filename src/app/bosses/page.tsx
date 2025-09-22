@@ -114,8 +114,8 @@ export default function BossesChallenge() {
     }
 
     const hoje = new Date().toISOString().split("T")[0];
-    const attemptsKey = `attempts-${hoje}`;
-    const numberKey = `numberOfAttempts-${hoje}`
+    const attemptsKey = `bossAttempts-${hoje}`;
+    const numberKey = `bossNumberOfAttempts-${hoje}`;
 
     useEffect(() => {
         const storedAttempts = localStorage.getItem(attemptsKey)
