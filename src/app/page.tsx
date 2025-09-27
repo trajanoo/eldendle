@@ -8,47 +8,70 @@ const cinzelDecorative = Cinzel_Decorative({
   subsets: ["latin"],
 });
 const minhaFonte = localFont({
-  src: './fonts/Mantinia Regular.otf',
-})
+  src: "./fonts/Mantinia Regular.otf",
+});
 
 export default function Home() {
   return (
-    <div className={`min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center text-white`}>
-      
-      <div className="flex-grow flex flex-col justify-center items-center w-full backdrop-brightness-[0.85]">
-        <h1 className={`${minhaFonte.className} text-8xl tracking-wide drop-shadow-[0_0_25px_rgba(255,255,255,0.9)] mb-12`}>
+    <div className="min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center text-white">
+      <div className="flex-grow flex flex-col justify-center items-center w-full backdrop-brightness-[0.85] px-4">
+        {/* título */}
+        <h1
+          className={`${minhaFonte.className} text-5xl sm:text-7xl lg:text-8xl tracking-wide drop-shadow-[0_0_25px_rgba(255,255,255,0.9)] mb-10 sm:mb-12 text-center`}
+        >
           EldenDle
         </h1>
 
-        <div className="main text-center border border-white/40 justify-center items-center rounded-2xl w-[24vw] py-10 bg-black/40 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] backdrop-blur-sm mb-8">
+        {/* card principal */}
+        <div className="main text-center border border-white/40 justify-center items-center rounded-2xl w-full max-w-xs sm:max-w-md lg:max-w-lg py-8 sm:py-10 bg-black/40 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] backdrop-blur-sm mb-8">
           <ul className="flex flex-col items-center gap-6 text-white/90">
-            
-            <Link href={"/bosses"}>
-              <li className="border border-white/40 font-semibold hover:shadow-[0_0_20px_2px_rgba(255,255,255,0.8)] transform transition duration-200 hover:scale-105 cursor-pointer rounded-lg w-[18vw] h-12 flex justify-center items-center bg-white/5">
-                🎯 Bosses Challenge
-              </li>
-            </Link>
-            <p className="text-sm italic">Guess the character by comparing attributes.</p>
-
-            <Link href={"/quotes"}>
-              <li className="border border-white/40 font-semibold hover:shadow-[0_0_20px_2px_rgba(255,255,255,0.8)] transform transition duration-200 hover:scale-105 cursor-pointer rounded-lg w-[18vw] h-12 flex justify-center items-center bg-white/5">
-                💬 Quotes Challenge
-              </li>
-            </Link>
-            <p className="text-sm italic">Guess the owner of the quote and prove your knowledge.</p>
-
-            <li className="border border-white/40 font-semibold hover:shadow-[0_0_20px_2px_rgba(255,255,255,0.8)] transform transition duration-200 hover:scale-105 cursor-pointer rounded-lg w-[18vw] h-12 flex justify-center items-center bg-white/5">
-              ❓ Need Help?
+            {/* bosses */}
+            <li className="w-full flex flex-col items-center gap-2">
+              <Link href={"/bosses"} className="w-full flex justify-center">
+                <div className="border border-white/40 font-semibold hover:shadow-[0_0_20px_2px_rgba(255,255,255,0.8)] transform transition duration-200 hover:scale-105 cursor-pointer rounded-lg w-[90%] h-12 flex justify-center items-center bg-white/5">
+                  🎯 Bosses Challenge
+                </div>
+              </Link>
+              <p className="text-xs sm:text-sm italic px-2">
+                Guess the character by comparing attributes.
+              </p>
             </li>
-            <p className="text-sm italic">Meaning of attributes and how to contact me.</p>
+
+            {/* quotes */}
+            <li className="w-full flex flex-col items-center gap-2">
+              <Link href={"/quotes"} className="w-full flex justify-center">
+                <div className="border border-white/40 font-semibold hover:shadow-[0_0_20px_2px_rgba(255,255,255,0.8)] transform transition duration-200 hover:scale-105 cursor-pointer rounded-lg w-[90%] h-12 flex justify-center items-center bg-white/5">
+                  💬 Quotes Challenge
+                </div>
+              </Link>
+              <p className="text-xs sm:text-sm italic px-2">
+                Guess the owner of the quote and prove your knowledge.
+              </p>
+            </li>
+
+            {/* help */}
+            <li className="w-full flex flex-col items-center gap-2">
+              <Link href={"/help"} className="w-full flex justify-center">
+                <div className="border border-white/40 font-semibold hover:shadow-[0_0_20px_2px_rgba(255,255,255,0.8)] transform transition duration-200 hover:scale-105 cursor-pointer rounded-lg w-[90%] h-12 flex justify-center items-center bg-white/5">
+                  ❓ Need Help?
+                </div>
+              </Link>
+              <p className="text-xs sm:text-sm italic px-2">
+                Meaning of attributes and how to contact me.
+              </p>
+            </li>
           </ul>
         </div>
       </div>
 
-      <footer className="w-full py-4 px-8 bg-black/60 backdrop-blur-sm border-t border-white/20">
-        <p className={`${cinzelDecorative.className} text-center text-xs text-white/70`}>
-          <span className="text-white">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring.  
-          All content is used for entertainment purposes only.
+      {/* footer */}
+      <footer className="w-full py-4 px-4 sm:px-8 bg-black/60 backdrop-blur-sm border-t border-white/20">
+        <p
+          className={`${cinzelDecorative.className} text-center text-[10px] sm:text-xs text-white/70`}
+        >
+          <span className="text-white">Disclaimer:</span> This fan-made game is
+          not affiliated with From Software or Elden Ring. All content is used
+          for entertainment purposes only.
         </p>
       </footer>
     </div>

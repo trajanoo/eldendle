@@ -149,9 +149,9 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
     return (
         <div className={`min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-center items-center`}>
             <div className="flex-grow flex flex-col items-center w-full mt-6">
-                <h1 className={`${minhaFonte.className} text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
-                <div className="bg-black/50 rounded-2xl border p-10">
-                    <p className={`${cinzelDecorative.className} font-extrabold text-2xl`}>{`"${dailyQuote?.fala}"`}</p>
+                <h1 className={`${minhaFonte.className} text-5xl md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
+                <div className="bg-black/50 rounded-2xl border w-[80vw] 2xl:w-auto p-10">
+                    <p className={`${cinzelDecorative.className} font-extrabold text-md md:text-2xl`}>{`"${dailyQuote?.fala}"`}</p>
                 </div>
 
                 <div className="flex justify-center items-center mt-5 gap-6">
@@ -195,7 +195,7 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
             </div>
 
             <main className="flex flex-col items-center justify-center">
-                <div ref={listaRef} className="lista px-5 w-80 h-96 2xl:h-[50vh] overflow-y-auto flex flex-col gap-5 text-center">
+                <div ref={listaRef} className="lista px-5 2xl:w-80 md:h-96 h-72 2xl:h-[50vh] overflow-y-auto flex flex-col gap-5 text-center">
                     {attempts.map((attempt) => (
                         <div key={attempt.value} className={`${attempt.isCorrect ? 'bg-[#35B957]' : 'bg-[#DF5858]'} ${shake ? 'shake' : ''} border-2 py-2 flex flex-col text-center items-center justify-center rounded-md`}>
                             <img src={attempt.imagem_url} className="w-16 h-16 object-cover" alt="" />
@@ -217,8 +217,8 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
                 </div>
             </main>
 
-            <footer className="w-full py-4 px-8 bg-black/60 backdrop-blur-sm border-t border-white/20">
-                <p className={`${cinzelDecorative.className} text-center text-xs text-white/70`}>
+            <footer className="w-full py-3 px-4 bg-black/60 backdrop-blur-sm border-t border-white/20 mt-6">
+                <p className={`${cinzelDecorative.className} text-center text-[10px] sm:text-xs text-white/70`}>
                     <span className="text-white">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring.  
                     All content is used for entertainment purposes only.
                 </p>
