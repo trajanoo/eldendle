@@ -145,7 +145,7 @@ export default function BossesChallenge() {
     return (
         <div className={`min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center`}>
             <div className="flex-grow flex flex-col items-center w-full mt-6">
-                <h1 className={`${minhaFonte.className} text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
+                <h1 className={`${minhaFonte.className} text-5xl md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
 
                 <div className="flex justify-center items-center mt-5 gap-6">
                     <button
@@ -243,9 +243,9 @@ export default function BossesChallenge() {
                 </div>
             </div>
 
-            <footer className="w-full py-4 px-8 bg-black/60 backdrop-blur-sm border-t border-white/20">
-                <p className={`${cinzelDecorative.className} text-center text-xs text-white/70`}>
-                    <span className="text-white">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring.
+            <footer className="w-full py-3 px-4 bg-black/60 backdrop-blur-sm border-t border-white/20 mt-6">
+                <p className={`${cinzelDecorative.className} text-center text-[10px] sm:text-xs text-white/70`}>
+                    <span className="text-white">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring.  
                     All content is used for entertainment purposes only.
                 </p>
             </footer>
