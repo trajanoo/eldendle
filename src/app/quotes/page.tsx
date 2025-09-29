@@ -149,9 +149,9 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
     return (
         <div className={`min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-center items-center`}>
             <div className="flex-grow flex flex-col items-center w-full mt-6">
-                <h1 className={`${minhaFonte.className} text-5xl md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
+                <h1 className={`${minhaFonte.className} text-white text-5xl md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
                 <div className="bg-black/50 rounded-2xl border w-[80vw] 2xl:w-auto p-10">
-                    <p className={`${cinzelDecorative.className} font-extrabold text-center text-md md:text-2xl`}>{`"${dailyQuote?.fala}"`}</p>
+                    <p className={`${cinzelDecorative.className} font-extrabold text-white text-center text-md md:text-2xl`}>{`"${dailyQuote?.fala}"`}</p>
                 </div>
 
                 <div className="flex justify-center items-center mt-5 gap-6">
@@ -210,7 +210,7 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
                             nome: c.nome,
                             imagem_url: c.imagem_url
                         }))} onSelect={(c) => setInputValue(c.nome)} />
-                        <div onClick={handleUserAttempt} className="cursor-pointer border-2 p-2 flex h-10 justify-center items-center rounded-md ml-2">
+                        <div onClick={handleUserAttempt} className="cursor-pointer text-white border-2 p-2 flex h-10 justify-center items-center rounded-md ml-2">
                             <SendIcon />
                         </div>
                     </div>

@@ -155,7 +155,7 @@ export default function BossesChallenge() {
     return (
         <div className={`min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center`}>
             <div className="flex-grow flex flex-col items-center w-full mt-6">
-                <h1 className={`${minhaFonte.className} text-5xl md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
+                <h1 className={`${minhaFonte.className} text-5xl text-white md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
 
                 <div className="flex justify-center items-center mt-5 gap-6">
                     <button
@@ -247,7 +247,7 @@ export default function BossesChallenge() {
                     imagem_url: b.imagem_url
                 }))} onSelect={(c) => setInputValue(c?.nome)} />
 
-                <div onClick={handleUserAttempt} className="cursor-pointer border-2 p-2 flex h-10  justify-center items-center rounded-md ml-2">
+                <div onClick={handleUserAttempt} className="cursor-pointer text-white border-2 p-2 flex h-10  justify-center items-center rounded-md ml-2">
                     <SendIcon />
                 </div>
             </div>
