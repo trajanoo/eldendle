@@ -48,7 +48,7 @@ export default function CharacterAutocomplete({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Combobox.Options className="absolute bottom-full mb-1 max-h-60 w-full overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
+            <Combobox.Options className="absolute bottom-full mb-1 max-h-60 w-full overflow-y-auto rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
               {filtered.length === 0 && query !== '' ? (
                 <div className="cursor-default select-none px-4 py-2 text-gray-500">
                   No character found.

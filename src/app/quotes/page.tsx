@@ -71,9 +71,9 @@ export default function QuotesChallenge() {
                 console.error("error: " + error);
                 return;
             }
-            console.log(data)
-            setCharacters(data);
-            setAvailableCharacters(data);
+            const filtered = data.filter((d) => d.fala !== "null")
+            setCharacters(filtered)
+            setAvailableCharacters(filtered);
 
             const hoje = new Date();
             const seed = Math.floor(hoje.getTime() / (1000 * 60 * 60 * 24));
@@ -151,7 +151,7 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
             <div className="flex-grow flex flex-col items-center w-full mt-6">
                 <h1 className={`${minhaFonte.className} text-5xl md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
                 <div className="bg-black/50 rounded-2xl border w-[80vw] 2xl:w-auto p-10">
-                    <p className={`${cinzelDecorative.className} font-extrabold text-md md:text-2xl`}>{`"${dailyQuote?.fala}"`}</p>
+                    <p className={`${cinzelDecorative.className} font-extrabold text-center text-md md:text-2xl`}>{`"${dailyQuote?.fala}"`}</p>
                 </div>
 
                 <div className="flex justify-center items-center mt-5 gap-6">
@@ -194,19 +194,19 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
                 )}
             </div>
 
-            <main className="flex flex-col items-center justify-center">
-                <div ref={listaRef} className="lista px-5 2xl:w-80 md:h-96 h-72 2xl:h-[50vh] overflow-y-auto flex flex-col gap-5 text-center">
+            <main className="flex flex-col md:mt-5 2xl:mt-0 items-center justify-center">
+                <div ref={listaRef} className="lista text-white px-5 2xl:w-80 md:h-96 h-72 2xl:h-[50vh] overflow-y-auto flex flex-col gap-5 text-center">
                     {attempts.map((attempt) => (
                         <div key={attempt.value} className={`${attempt.isCorrect ? 'bg-[#35B957]' : 'bg-[#DF5858]'} ${shake ? 'shake' : ''} border-2 py-2 flex flex-col text-center items-center justify-center rounded-md`}>
                             <img src={attempt.imagem_url} className="w-16 h-16 object-cover" alt="" />
-                            <h1 className="mt-2 font-extrabold">{attempt.value}</h1>
+                            <h1 className="mt-2 px-2 font-extrabold">{attempt.value}</h1>
                         </div>
                     ))}
                 </div>
 
                 <div className="w-20 h-20 flex items-center justify-center">
                     <div className="flex">
-                        <CharacterAutocomplete characters={availableCharacters.map(c => ({
+                        <CharacterAutocomplete key={numberOfAttempts} characters={availableCharacters.map(c => ({
                             nome: c.nome,
                             imagem_url: c.imagem_url
                         }))} onSelect={(c) => setInputValue(c.nome)} />

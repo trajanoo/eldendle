@@ -12,7 +12,7 @@ import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 import HintModal from "../components/HintModal";
 import { motion } from "framer-motion"
-
+import { useRef } from "react";
 
 const minhaFonte = localFont({
     src: '../fonts/Mantinia Regular.otf',
@@ -63,8 +63,11 @@ export default function BossesChallenge() {
                 return
             }
 
-            if (data) setBosses(data)
-            setAvailableCharacters(data);
+            if (data) {
+                const filtered = data.filter((d) => d.tipo === "Boss")
+                setBosses(filtered)
+                setAvailableCharacters(filtered);
+            }
 
             const hoje = new Date()
             const seed = Math.floor(hoje.getTime() / (1000 * 60 * 60 * 24));
@@ -129,6 +132,13 @@ export default function BossesChallenge() {
         }
     }, [attemptsKey, numberKey])
 
+        const listaRef = useRef<HTMLDivElement | null>(null)
+        useEffect(() => {
+            if (listaRef.current) {
+                listaRef.current.scrollTop = listaRef.current.scrollHeight
+            }
+        }, [attempts])
+
 
     useEffect(() => {
         localStorage.setItem(attemptsKey, JSON.stringify(attempts))
@@ -185,7 +195,7 @@ export default function BossesChallenge() {
                 {showHintModal && (
                     <HintModal show={showHintModal} hint={currentHint || undefined} onClose={() => setShowHintModal(false)} />
                 )}
-                <main className="lista px-5 w-full h-96 2xl:h-[50vh] overflow-y-auto max-w-5xl">
+                <main ref={listaRef} className="lista px-5 w-full h-96 2xl:h-[50vh] overflow-y-auto max-w-5xl">
                     <div className="mt-8 w-full max-w-5xl overflow-y-auto">
                         <table className="w-full border-collapse text-center">
                             <thead>
@@ -232,8 +242,7 @@ export default function BossesChallenge() {
             </div>
 
             <div className="flex my-5 2xl:mb-5">
-                { /* trocar charaters para availableCharacters depois */}
-                <CharacterAutocomplete characters={availableCharacters.map(b => ({
+                <CharacterAutocomplete key={numberOfAttempts} characters={availableCharacters.map(b => ({
                     nome: b.nome,
                     imagem_url: b.imagem_url
                 }))} onSelect={(c) => setInputValue(c?.nome)} />
