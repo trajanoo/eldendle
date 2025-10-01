@@ -12,7 +12,7 @@ const minhaFonte = localFont({
 
 export default function Help() {
   return (
-    <div className="h-[100dvh] w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center text-white">
+    <div className="min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center text-white">
       <div className="flex-grow flex flex-col justify-center items-center w-full backdrop-brightness-[0.85] px-6 sm:px-12">
         <h1 className={`${minhaFonte.className} text-5xl mt-10 md:mt-5 md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
 
