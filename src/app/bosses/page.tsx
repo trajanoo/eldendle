@@ -25,18 +25,19 @@ const cinzelDecorative = Cinzel_Decorative({
 
 
 type Boss = {
-    id: string,
-    nome: string,
-    fala: string,
-    contexto: string,
-    regiao: string,
-    tipo: string,
-    genero: string,
-    dificuldade: string,
-    dica1: string,
-    dica2: string,
+    id: string
+    nome: string
+    fala: string
+    contexto: string
+    regiao: string
+    genero: string
+    dificuldade: string
+    dica1: string
+    dica2: string
     imagem_url: string
     first_appearance: string
+    fases: string
+    especie: string
 }
 
 export default function BossesChallenge() {
@@ -67,14 +68,14 @@ export default function BossesChallenge() {
                 const filtered = data.filter((d) => d.tipo === "Boss")
                 setBosses(filtered)
                 setAvailableCharacters(filtered);
+
+                const hoje = new Date()
+                const seed = Math.floor(hoje.getTime() / (1000 * 60 * 60 * 24));
+                const index = seed % filtered.length;
+                const bossIndex = (index - 1 + filtered.length) % filtered.length;
+
+                setDailyBoss(data[bossIndex])
             }
-
-            const hoje = new Date()
-            const seed = Math.floor(hoje.getTime() / (1000 * 60 * 60 * 24));
-            const index = seed % data.length;
-            const bossIndex = (index - 1 + data.length) % data.length;
-
-            setDailyBoss(data[bossIndex])
         }
 
         fetchBosses()
@@ -132,12 +133,12 @@ export default function BossesChallenge() {
         }
     }, [attemptsKey, numberKey])
 
-        const listaRef = useRef<HTMLDivElement | null>(null)
-        useEffect(() => {
-            if (listaRef.current) {
-                listaRef.current.scrollTop = listaRef.current.scrollHeight
-            }
-        }, [attempts])
+    const listaRef = useRef<HTMLDivElement | null>(null)
+    useEffect(() => {
+        if (listaRef.current) {
+            listaRef.current.scrollTop = listaRef.current.scrollHeight
+        }
+    }, [attempts])
 
 
     useEffect(() => {
@@ -203,9 +204,10 @@ export default function BossesChallenge() {
                                     <th className="p-2 border">Character</th>
                                     <th className="p-2 border">Gender</th>
                                     <th className="p-2 border">Region</th>
-                                    <th className="p-2 border">Type</th>
                                     <th className="p-2 border">Difficult</th>
                                     <th className="p-2 border">First Appearance</th>
+                                    <th className="p-2 border">Phases</th>
+                                    <th className="p-2 border">Species</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -215,7 +217,7 @@ export default function BossesChallenge() {
                                             <img className="max-w-20 border h-16 object-cover" src={attempt.imagem_url} alt="" />
                                         </td>
                                         {(Object.keys(dailyBoss!) as (keyof Boss)[])
-                                            .filter(key => ["regiao", "tipo", "genero", "first_appearance", "dificuldade"].includes(key)) // só mostra os atributos principais
+                                            .filter(key => ["regiao", "genero", "first_appearance", "dificuldade", "fases", "especie"].includes(key)) // só mostra os atributos principais
                                             .map((key, j) => {
                                                 const isEqual = attempt[key] === dailyBoss![key]
                                                 return (
@@ -254,7 +256,7 @@ export default function BossesChallenge() {
 
             <footer className="w-full py-3 px-4 bg-black/60 backdrop-blur-sm border-t border-white/20 mt-6">
                 <p className={`${cinzelDecorative.className} text-center text-[10px] sm:text-xs text-white/70`}>
-                    <span className="text-white">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring.  
+                    <span className="text-white">Disclaimer:</span> This fan-made game is not affiliated with From Software or Elden Ring.
                     All content is used for entertainment purposes only.
                 </p>
             </footer>

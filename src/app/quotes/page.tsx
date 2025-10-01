@@ -77,8 +77,8 @@ export default function QuotesChallenge() {
 
             const hoje = new Date();
             const seed = Math.floor(hoje.getTime() / (1000 * 60 * 60 * 24));
-            const index = seed % data.length;
-            setDailyQuote(data[index]);
+            const index = seed % filtered.length;
+            setDailyQuote(filtered[index]);
         }
 
         fetchCharacters();
