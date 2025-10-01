@@ -154,7 +154,7 @@ export default function BossesChallenge() {
     }, [attempts, dailyBoss])
 
     return (
-        <div className={`min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center`}>
+        <div className={`h-[100dvh] w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center`}>
             <div className="flex-1 flex flex-col items-center w-full mt-6">
                 <h1 className={`${minhaFonte.className} text-5xl text-white md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
 

@@ -13,7 +13,7 @@ const minhaFonte = localFont({
 
 export default function Home() {
   return (
-    <div className="h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center text-white">
+    <div className="h-[100dvh] w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-center items-center text-white">
       <div className="flex flex-1 flex-col justify-center items-center w-full backdrop-brightness-[0.85] px-4">
         {/* título */}
         <h1
