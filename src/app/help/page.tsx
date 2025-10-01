@@ -42,7 +42,7 @@ export default function Help() {
             </li>
             <li>
               🛡️ <span className="font-semibold text-white">Difficulty:</span>{" "}
-              A community-based measure of how tough the boss feels, ranging from Easy to Extreme.
+              A community-based measure of how tough the boss feels, ranging from Easy to Hard.
             </li>
             <li>
               🕐 <span className="font-semibold text-white">First Appearance:</span>{" "}
@@ -55,10 +55,6 @@ export default function Help() {
             <li>
               🐉 <span className="font-semibold text-white">Species:</span>{" "}
               The in-game “biology” of the boss — human, demigod, dragon, beast, cosmic being, etc.
-            </li>
-            <li>
-              ⚔️ <span className="font-semibold text-white">Combat Style:</span>{" "}
-              Whether the boss fights in melee, ranged, or a hybrid of both.
             </li>
           </ul>
 
