@@ -13,8 +13,8 @@ const minhaFonte = localFont({
 
 export default function Home() {
   return (
-    <div className="min-h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center text-white">
-      <div className="flex-grow flex flex-col justify-center items-center w-full backdrop-brightness-[0.85] px-4">
+    <div className="h-screen w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-between items-center text-white">
+      <div className="flex flex-1 flex-col justify-center items-center w-full backdrop-brightness-[0.85] px-4">
         {/* título */}
         <h1
           className={`${minhaFonte.className} text-5xl sm:text-7xl lg:text-8xl tracking-wide drop-shadow-[0_0_25px_rgba(255,255,255,0.9)] mb-10 sm:mb-12 text-center`}
@@ -60,9 +60,9 @@ export default function Home() {
           </ul>
         </div>
         <div className="links flex gap-3">
-          <a href="https://x.com/eldendle" target="_blank"><img className="rounded-full w-12 h-12 transform transition duration-200 hover:scale-105 shadow-[rgba(0,0,0,0.16)_0px_10px_36px_0px,rgba(0,0,0,0.06)_0px_0px_0px_1px]" src="/x_icon.webp" alt="" /></a>
-          <a href="https://github.com/trajanoo" target="_blank"><img className="rounded-full w-12 h-12 bg-black transform transition duration-200 hover:scale-105 shadow-[rgba(0,0,0,0.16)_0px_10px_36px_0px,rgba(0,0,0,0.06)_0px_0px_0px_1px]" src="/github-90.png" alt="" /></a>
-          <a href="https://ko-fi.com/trajano" target="_blank"><img className="rounded-full w-12 h-12 transform transition duration-200 hover:scale-105 shadow-[rgba(0,0,0,0.16)_0px_10px_36px_0px,rgba(0,0,0,0.06)_0px_0px_0px_1px]" src="/ko_fi_logo_icon.png" alt="" /></a>
+          <a href="https://x.com/eldendle" target="_blank"><img className="rounded-full  w-12 h-12 transform transition duration-200 hover:scale-105 shadow-[rgba(0,0,0,0.16)_0px_10px_36px_0px,rgba(0,0,0,0.06)_0px_0px_0px_1px]" src="/x_icon.webp" alt="" /></a>
+          <a href="https://github.com/trajanoo" target="_blank"><img className="rounded-full  w-12 h-12 bg-black transform transition duration-200 hover:scale-105 shadow-[rgba(0,0,0,0.16)_0px_10px_36px_0px,rgba(0,0,0,0.06)_0px_0px_0px_1px]" src="/github-90.png" alt="" /></a>
+          <a href="https://ko-fi.com/trajano" target="_blank"><img className="rounded-full  w-12 h-12 transform transition duration-200 hover:scale-105 shadow-[rgba(0,0,0,0.16)_0px_10px_36px_0px,rgba(0,0,0,0.06)_0px_0px_0px_1px]" src="/ko_fi_logo_icon.png" alt="" /></a>
         </div>
       </div>
 
