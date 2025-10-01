@@ -244,7 +244,9 @@ export default function BossesChallenge() {
             </div>
 
             <div className="flex my-5 2xl:mb-5">
-                <CharacterAutocomplete key={numberOfAttempts} characters={availableCharacters.map(b => ({
+                <CharacterAutocomplete key={numberOfAttempts} onKeyDown={(e) => {
+                    if(e.key === "Enter") handleUserAttempt()
+                }} characters={availableCharacters.map(b => ({
                     nome: b.nome,
                     imagem_url: b.imagem_url
                 }))} onSelect={(c) => setInputValue(c?.nome)} />

@@ -9,10 +9,12 @@ type Character = {
 
 export default function CharacterAutocomplete({
   characters,
-  onSelect
+  onSelect,
+  onKeyDown
 }: {
   characters: Character[]
   onSelect: (c: Character) => void
+  onKeyDown: (e: React.KeyboardEvent) => void
 }) {
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<Character | null>(null)
@@ -38,6 +40,7 @@ export default function CharacterAutocomplete({
              focus:outline-none focus:ring-2 focus:ring-yellow-500"
             // 👇 aqui precisa retornar string
             displayValue={(c: Character | null) => (c ? c.nome : '')}
+            onKeyDown={onKeyDown}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Enter the character..."
           />

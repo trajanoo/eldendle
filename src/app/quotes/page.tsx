@@ -151,7 +151,7 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
             <div className="flex-grow flex flex-col items-center w-full mt-6">
                 <h1 className={`${minhaFonte.className} text-white text-5xl md:text-7xl 2xl:text-8xl drop-shadow-[0_0_10px_#fff] mb-8`}>EldenDle</h1>
                 <div className="bg-black/50 rounded-2xl border w-[80vw] 2xl:w-auto p-10">
-                    <p className={`${cinzelDecorative.className} font-extrabold text-white text-center text-md md:text-2xl`}>{`"${dailyQuote?.fala}"`}</p>
+                    <p className={`${cinzelDecorative.className} font-extrabold text-white text-center text-md md:text-2xl`}>{dailyQuote?.fala ? `"${dailyQuote.fala}"` : "Loading..." }</p>
                 </div>
 
                 <div className="flex justify-center items-center mt-5 gap-6">
@@ -206,7 +206,9 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
 
                 <div className="w-20 h-20 flex items-center justify-center">
                     <div className="flex">
-                        <CharacterAutocomplete key={numberOfAttempts} characters={availableCharacters.map(c => ({
+                        <CharacterAutocomplete key={numberOfAttempts} onKeyDown={(e) => {
+                            if(e.key === "Enter") handleUserAttempt()
+                        }} characters={availableCharacters.map(c => ({
                             nome: c.nome,
                             imagem_url: c.imagem_url
                         }))} onSelect={(c) => setInputValue(c.nome)} />
