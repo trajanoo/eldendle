@@ -71,7 +71,7 @@ export default function QuotesChallenge() {
                 console.error("error: " + error);
                 return;
             }
-            const filtered = data.filter((d) => d.fala !== "null")
+            const filtered = data.filter((d) => d.fala && d.fala.trim() !== "")
             setCharacters(filtered)
             setAvailableCharacters(filtered);
 
