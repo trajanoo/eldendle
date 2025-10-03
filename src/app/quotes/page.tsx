@@ -169,7 +169,7 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
                             : `border-white/40 text-white/50 bg-black/40  ${shakeHint1 ? 'shake' : ''}`
                             }`}
                     >
-                        {numberOfAttempts >= 3 ? "💡 Hint 1" : "🚫 Hint 1"}
+                        {numberOfAttempts >= 3 ? "💡 Hint 1" : `🚫 Hint 1 (${3 - numberOfAttempts})`}
                     </button>
 
                     <button
@@ -186,7 +186,7 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
                             : `border-white/40 text-white/50 bg-black/40 ${shakeHint2 ? 'shake' : ''}`
                             }`}
                     >
-                        {numberOfAttempts >= 6 ? "💡 Hint 2" : "🚫 Hint 2"}
+                        {numberOfAttempts >= 6 ? "💡 Hint 2" : `🚫 Hint 2 (${6 - numberOfAttempts})`}
                     </button>
                 </div>
                 {showHintModal && (

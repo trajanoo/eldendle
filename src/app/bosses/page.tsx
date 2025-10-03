@@ -74,7 +74,7 @@ export default function BossesChallenge() {
                 const index = seed % filtered.length;
                 const bossIndex = (index - 1 + filtered.length) % filtered.length;
 
-                setDailyBoss(data[bossIndex])
+                setDailyBoss(filtered[bossIndex])
             }
         }
 
@@ -91,15 +91,6 @@ export default function BossesChallenge() {
         for (const key of Object.keys(verification) as (keyof Boss)[]) {
             const value = verification[key]
             const target = dailyBoss[key]
-
-
-            if (value === target) {
-                console.log(`igual em ${key}: ${value}`)
-                setInputValue("")
-            } else {
-                console.log(`diferente em ${key}: ${value}`)
-                setInputValue("")
-            }
         }
 
         if (verification.nome === dailyBoss.nome) {
@@ -173,7 +164,7 @@ export default function BossesChallenge() {
                             : `border-white/40 text-white/50 bg-black/40  ${shakeHint1 ? 'shake' : ''}`
                             }`}
                     >
-                        {numberOfAttempts >= 3 ? "💡 Hint 1" : "🚫 Hint 1"}
+                        {numberOfAttempts >= 3 ? "💡 Hint 1" : `🚫 Hint 1 (${3 - numberOfAttempts})`}
                     </button>
 
                     <button
@@ -190,7 +181,7 @@ export default function BossesChallenge() {
                             : `border-white/40 text-white/50 bg-black/40 ${shakeHint2 ? 'shake' : ''}`
                             }`}
                     >
-                        {numberOfAttempts >= 6 ? "💡 Hint 2" : "🚫 Hint 2"}
+                        {numberOfAttempts >= 6 ? "💡 Hint 2" : `🚫 Hint 2 (${6 - numberOfAttempts})`}
                     </button>
                 </div>
                 {showHintModal && (

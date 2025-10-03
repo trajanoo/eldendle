@@ -3,6 +3,8 @@ import { Cinzel_Decorative } from "next/font/google";
 import localFont from "next/font/local";
 import { motion } from "motion/react"
 import { AnimatePresence } from "motion/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 const minhaFonte = localFont({
     src: '../fonts/Mantinia Regular.otf',
 })
@@ -28,6 +30,7 @@ export default function WinModal({
     onClose,
 }: WinModalProps) {
     const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+    const pathname = usePathname()
 
     useEffect(() => {
         if (!show) return;
@@ -51,12 +54,20 @@ export default function WinModal({
                         exit={{ scale: 0.8, opacity: 0 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}>
                         <div
-                            className={`relative bg-gradient-to-b from-[#0d0d0d]/95 to-[#1a1a1a]/95 border border-yellow-600/40 rounded-2xl text-center shadow-2xl max-w-md w-full p-8 ${cinzelDecorative.className}`}
+                            className={`relative bg-gradient-to-b from-[#0d0d0d]/95 to-[#1a1a1a]/95 
+  border border-yellow-600/40 rounded-2xl text-center shadow-2xl 
+  max-w-md w-[90%] p-6 sm:p-8 mx-auto 
+  overflow-hidden break-words ${cinzelDecorative.className}`}
                         >
-                            {/* Ornamento superior */}
                             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-1 bg-yellow-600 rounded-full shadow-[0_0_10px_rgba(241,196,13,0.6)]"></div>
 
-                            <h1 className="drop-shadow-[0_0_10px_#fff] text-3xl font-bold ">
+                            <button
+                                onClick={onClose}
+                                className="absolute cursor-pointer top-3 right-3 text-gray-400 text-xl hover:text-yellow-600 transition-colors duration-100"
+                            >
+                                ✕
+                            </button>
+                            <h1 className="drop-shadow-[0_0_10px_#fff] text-2xl md:text-3xl font-bold ">
                                 Congratulations, Tarnished
                             </h1>
 
@@ -76,7 +87,7 @@ export default function WinModal({
                                 </div>
                             )}
 
-                            <h2 className={`${cinzelDecorative.className}mt-4 text-xl font-bold text-yellow-400 tracking-wide`}>
+                            <h2 className={`${cinzelDecorative.className} mt-4 text-xl font-bold text-yellow-400 tracking-wide`}>
                                 {characterName}
                             </h2>
 
@@ -85,12 +96,27 @@ export default function WinModal({
                                 <span className="font-extrabold text-yellow-400">{timeLeft}</span>
                             </p>
 
-                            <button
-                                onClick={onClose}
-                                className="mt-8 px-6 py-2 text-lg  font-semibold rounded-lg border border-yellow-700/60 text-yellow-400 hover:bg-yellow-700/30 transition-all duration-200 shadow-[0_0_10px_rgba(241,196,13,0.3)]"
-                            >
-                                Close
-                            </button>
+                            <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-200/50 to-transparent mt-8 mb-4" />
+
+                            <div className="flex justify-center flex-col items-center">
+                                <p className="mb-5">Next Mode:</p>
+                                {pathname.startsWith("/bosses") ? (
+                                    <Link href="/quotes">
+                                        <button
+                                            className="px-6 py-2 text-lg cursor-pointer font-semibold rounded-lg border border-yellow-700/60 text-yellow-400 hover:bg-yellow-700/30 transition-all duration-200 shadow-[0_0_10px_rgba(241,196,13,0.3)]">
+                                            Quotes Challenge
+                                        </button>
+                                    </Link>
+                                ) : (
+                                    <Link href="/bosses">
+                                        <button
+                                            className="px-6 py-2 text-lg cursor-pointer font-semibold rounded-lg border border-yellow-700/60 text-yellow-400 hover:bg-yellow-700/30 transition-all duration-200 shadow-[0_0_10px_rgba(241,196,13,0.3)]">
+                                            Bosses Challenge
+                                        </button>
+                                    </Link>
+                                )}
+                            </div>
+
                         </div>
                     </motion.div>
                 </div>
