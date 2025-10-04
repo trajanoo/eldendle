@@ -41,12 +41,8 @@ export default function Help() {
               The land where the boss resides — Limgrave, Caelid, Liurnia, and more.
             </li>
             <li>
-              🛡️ <span className="font-semibold text-white">Difficulty:</span>{" "}
-              A community-based measure of how tough the boss feels, ranging from Easy to Hard.
-            </li>
-            <li>
               🕐 <span className="font-semibold text-white">First Appearance:</span>{" "}
-              The point in the game where the boss is usually encountered — Early, Mid, or Endgame.
+              The point in the game where the boss is usually encountered — Early, Mid, or Lategame.
             </li>
             <li>
               🔄 <span className="font-semibold text-white">Phases:</span>{" "}
@@ -55,6 +51,10 @@ export default function Help() {
             <li>
               🐉 <span className="font-semibold text-white">Species:</span>{" "}
               The in-game “biology” of the boss — human, demigod, dragon, beast, cosmic being, etc.
+            </li>
+                        <li>
+              🗺️ <span className="font-semibold text-white">Story Relevance:</span>{" "}
+              Indicates how important the boss is to the main storyline. “Mandatory” bosses are required to finish the game, while “Optional” ones are side encounters.
             </li>
           </ul>
 

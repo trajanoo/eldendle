@@ -243,4 +243,7 @@ const numberKey = `quotesNumberOfAttempts-${hoje}`;
             />
         </div>
     )
-}
+}                            //<p className="mt-6 text-sm text-gray-400">
+                               // Next trial begins in:{" "}
+                                //<span className="font-extrabold text-yellow-400">{timeLeft}</span>
+                            // </p>

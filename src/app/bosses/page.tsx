@@ -38,6 +38,7 @@ type Boss = {
     first_appearance: string
     fases: string
     especie: string
+    mainline_relevance: string
 }
 
 export default function BossesChallenge() {
@@ -82,8 +83,23 @@ export default function BossesChallenge() {
     }, [])
 
     function handleUserAttempt() {
+        const trimmed = inputValue?.trim();
+        if (!trimmed) {
+            setInputValue("");
+            return
+        }
+
         const verification = bosses.find((b) => inputValue === b.nome)
-        if (!verification || !dailyBoss) return
+        if (!verification || !dailyBoss) {
+            setInputValue("");
+            return;
+        }
+
+        if (attempts.some((a) => a.nome === verification.nome)) {
+            setInputValue("");
+            return;
+        }
+
         setAvailableCharacters(prev => prev.filter((c) => c.nome !== verification.nome));
         setAttempts((prev) => [...prev, verification])
         setNumberOfAttempts(prev => prev + 1)
@@ -111,6 +127,17 @@ export default function BossesChallenge() {
     const hoje = new Date().toISOString().split("T")[0];
     const attemptsKey = `bossAttempts-${hoje}`;
     const numberKey = `bossNumberOfAttempts-${hoje}`;
+
+    function checkCategory(guess: string, target: string) {
+        if (guess === target) return "green"
+
+        const guessParts = guess.split(/[\/,]/).map(s => s.trim().toLowerCase());
+        const targetParts = target.split(/[\/,]/).map(s => s.trim().toLowerCase());
+
+        const intersection = guessParts.filter(part => targetParts.includes(part));
+        if (intersection.length > 0) return "orange";
+        return "red";
+    }
 
     useEffect(() => {
         const storedAttempts = localStorage.getItem(attemptsKey)
@@ -195,10 +222,10 @@ export default function BossesChallenge() {
                                     <th className="p-2 border">Character</th>
                                     <th className="p-2 border">Gender</th>
                                     <th className="p-2 border">Region</th>
-                                    <th className="p-2 border">Difficult</th>
                                     <th className="p-2 border">First Appearance</th>
                                     <th className="p-2 border">Phases</th>
                                     <th className="p-2 border">Species</th>
+                                    <th className="p-2 border">Story Relevance</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -208,9 +235,9 @@ export default function BossesChallenge() {
                                             <img className="max-w-20 border h-16 object-cover" src={attempt.imagem_url} alt="" />
                                         </td>
                                         {(Object.keys(dailyBoss!) as (keyof Boss)[])
-                                            .filter(key => ["regiao", "genero", "first_appearance", "dificuldade", "fases", "especie"].includes(key)) // só mostra os atributos principais
+                                            .filter(key => ["regiao", "genero", "first_appearance", "fases", "especie", "mainline_relevance"].includes(key)) // só mostra os atributos principais
                                             .map((key, j) => {
-                                                const isEqual = attempt[key] === dailyBoss![key]
+                                                const status = checkCategory(attempt[key], dailyBoss![key])
                                                 return (
 
                                                     <motion.td
@@ -218,7 +245,9 @@ export default function BossesChallenge() {
                                                         animate={{ rotateY: 0, opacity: 1 }}
                                                         transition={{ duration: 0.6, delay: j * 0.5 }}
                                                         key={key}
-                                                        className={`p-2 border font-semibold ${isEqual ? "bg-green-600 text-white" : "bg-red-600 text-white"
+                                                        className={`p-2 border font-semibold ${status === "green" ? "bg-green-600 text-white" :
+                                                            status === "orange" ? "bg-orange-400 text-white" :
+                                                                "bg-red-600 text-white"
                                                             }`}
                                                     >
                                                         {attempt[key]}
@@ -236,7 +265,7 @@ export default function BossesChallenge() {
 
             <div className="flex my-5 2xl:mb-5">
                 <CharacterAutocomplete key={numberOfAttempts} onKeyDown={(e) => {
-                    if(e.key === "Enter") handleUserAttempt()
+                    if (e.key === "Enter") handleUserAttempt()
                 }} characters={availableCharacters.map(b => ({
                     nome: b.nome,
                     imagem_url: b.imagem_url

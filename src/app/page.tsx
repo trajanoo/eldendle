@@ -1,7 +1,9 @@
+'use client'
 import Image from "next/image";
 import localFont from "next/font/local";
 import { Cinzel_Decorative } from "next/font/google";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const cinzelDecorative = Cinzel_Decorative({
   weight: ["400", "700"],
@@ -12,8 +14,43 @@ const minhaFonte = localFont({
 });
 
 export default function Home() {
+
+  function getTimeLeft() {
+    const now = new Date();
+    const tomorrow = new Date();
+    tomorrow.setHours(24, 0, 0, 0);
+
+    const diff = tomorrow.getTime() - now.getTime();
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+        2,
+        "0"
+    )}:${String(seconds).padStart(2, "0")}`;
+}
+
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+
+      useEffect(() => {
+          const timer = setInterval(() => {
+              setTimeLeft(getTimeLeft());
+          }, 1000);
+  
+          return () => clearInterval(timer);
+      }, []);
+  
+
   return (
     <div className="h-[100dvh] w-full bg-[url('/wallpaper.jpeg')] bg-cover bg-center flex flex-col justify-center items-center text-white">
+      <div className="header flex items-center justify-center h-10">
+        <p className={`${cinzelDecorative.className} text-center text-[11px] sm:text-xs text-white/70`}>
+                                Next trial begins in:{" "}
+                                <span className="font-extrabold text-yellow-400">{timeLeft}</span>
+                            </p>
+      </div>
       <div className="flex flex-1 flex-col justify-center items-center w-full backdrop-brightness-[0.85] px-4">
         {/* título */}
         <h1
